@@ -11,7 +11,7 @@ MONSTROS = [
 {
 	:nome => "Bizaiu",
 	:resistencia => "Terra",
-	:vida => 160,
+	:vida => 200,
 	:dano => {
 		:normal => 20,
 		:especial => 125

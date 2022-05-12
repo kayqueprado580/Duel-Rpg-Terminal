@@ -44,6 +44,49 @@ module Texto
 		def txt_inicio_do_duelo(jogador, monstro, chefe)
 			system "clear"
 			puts 'O Duelo começará...'
-			puts "jogador #{jogador} com #{monstro[:nome]} contra o terrivel #{chefe[:nome]}"
+			puts "jogador #{jogador} com #{monstro[:nome]}[#{monstro[:vida]} - vida] CONTRA o terrivel #{chefe[:nome]}[#{chefe[:vida]} - vida] "
+		end
+
+		def txt_turno_duelo_inicio(turno, monstro, chefe)
+			# system "clear"
+			puts "Turno: #{turno}° - #{monstro[:nome]}[#{monstro[:vida]}] VS #{chefe[:nome]}[#{chefe[:vida]}]"
+		end
+
+		def txt_turno_duelo_final(turno, monstro, chefe)
+			puts "Próximo turno: #{turno}° - #{monstro[:nome]}[#{monstro[:vida]}] VS #{chefe[:nome]}[#{chefe[:vida]}]"
+			puts "===================================================== \n\n\n"
+		end
+
+		def txt_chefe_atacou(chefe,ataqueEspecial=false)
+			puts "O chefe #{chefe[:nome]}, atacou #{chefe[:dano][:normal]} de dano " unless ataqueEspecial
+			puts "O chefe #{chefe[:nome]}, atacou #{chefe[:dano][:especial]} de dano POWWWW" if ataqueEspecial 
+		end
+
+		def txt_opcoes_duelo(ataqueEspecial=false)
+			puts 'Você tem 3 opções, escolha com sabedoria!'
+			puts "1 - Atacar | 2 - Correr | 3 - Nada" unless ataqueEspecial
+			puts "1 - Atacar | 2 - Correr | 3 - Especial(Desbloqueado)" if ataqueEspecial 
+		end
+
+		def txt_monstro_atacou(monstro,ataqueEspecial=false)
+			puts "Nosso aliado #{monstro[:nome]}, atacou #{monstro[:dano][:normal]} de dano" unless ataqueEspecial
+			puts "Nosso aliado #{monstro[:nome]}, atacou #{monstro[:dano][:especial]} de dano Xabluuuu" if ataqueEspecial 
+		end
+
+		def txt_ganhou
+			puts "você ganhou!!!"
+		end
+
+		def txt_perdeu
+			puts "você perdeu!!!"
+		end
+
+		def txt_mostrou_medo(chefe)
+			puts 'Você saiu correndo, isso demonstrou medo'
+			puts "O #{chefe[:nome]} fica mais forte com seu medo..."
+		end
+
+		def txt_recupera_vida_chefe
+			puts 'Ao fazer nada ele se aproveita para ganhar mais vida...'
 		end
 end

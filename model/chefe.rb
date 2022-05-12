@@ -1,9 +1,11 @@
 CHEFE = 
 {
 	:nome => "Gabiru",
-	:vida => 150,
+	:vida => 180,
 	:dano => {
 		:normal => 30,
 		:especial => 120
 	}
 }
+
+PORCENTAGEM = 10
