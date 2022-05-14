@@ -1,11 +1,9 @@
-CHEFE = 
-{
-	:nome => "Gabiru",
-	:vida => 180,
-	:dano => {
-		:normal => 30,
-		:especial => 120
-	}
-}
-
-PORCENTAGEM = 10
+CHEFE =
+  {
+    nome: 'Gabiru',
+    vida: 180,
+    dano: {
+      normal: 30,
+      especial: 120
+    }
+  }
