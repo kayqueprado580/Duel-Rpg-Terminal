@@ -1,29 +1,31 @@
+# frozen_string_literal: true
+
 MONSTROS = [
   {
     nome: 'Salamndra',
     resistencia: 'Fogo',
-    vida: 140,
+    vida: 200,
     dano: {
-      normal: 35,
-      especial: 135
+      normal: 40,
+      especial: 140
     }
   },
   {
     nome: 'Bizaiu',
     resistencia: 'Terra',
-    vida: 200,
+    vida: 280,
     dano: {
-      normal: 20,
-      especial: 125
+      normal: 30,
+      especial: 130
     }
   },
   {
     nome: 'Fade',
     resistencia: 'Vento',
-    vida: 150,
+    vida: 250,
     dano: {
-      normal: 30,
-      especial: 130
+      normal: 35,
+      especial: 135
     }
   }
-]
+].freeze

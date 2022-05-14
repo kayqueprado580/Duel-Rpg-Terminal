@@ -1,14 +1,11 @@
+# frozen_string_literal: true
+
 require_relative 'base'
 
 class Preparo < Base
-  attr_accessor :jogador, :monstro_escolhido
+  attr_accessor :nome_jogador, :chefe_escolhido, :monstro_escolhido
 
-  def initialize(chefe, monstros)
-    @chefe = chefe
-    @monstros = monstros
-  end
-
-  def preparar_personagem
+  def personagem
     txt_pedir_nome
     jogador = captura_input
 
@@ -20,28 +17,48 @@ class Preparo < Base
       end
     end
 
-    @jogador = jogador.capitalize
+    @nome_jogador = jogador.capitalize
   end
 
-  def preparar_monstro
-    txt_apresentar_game(@jogador, @chefe)
+  def chefe(opcoes_chefes)
+    txt_apresenta_nivel
+    opcoes_chefes.each_with_index do |chefe, key|
+      posicao = key + 1
+      txt_apresenta_chefes(posicao, chefe)
+    end
 
-    @monstros.each_with_index do |monstro, key|
+    txt_escolha_chefe(opcoes_chefes)
+    id_chefe_escolhido = opcao_escolhe(captura_input)
+    return false unless id_chefe_escolhido
+
+    @chefe_escolhido = opcoes_chefes[(id_chefe_escolhido.to_i - 1)]
+  end
+
+  def monstro(opcoes_monstros)
+    txt_apresenta_chefe_escolhido(@nome_jogador, @chefe_escolhido)
+
+    opcoes_monstros.each_with_index do |monstro, key|
       posicao = key + 1
       txt_apresentar_monstros(posicao, monstro)
     end
 
-    txt_escolha_monstro(@monstros)
-    monstro_escolhido = captura_input
+    txt_escolha_monstro(opcoes_monstros)
+    id_monstro_escolhido = opcao_escolhe(captura_input)
+    return false unless id_monstro_escolhido
 
-    if valida_opcoes(monstro_escolhido)
-      monstro_escolhido = ultima_chance(1)
-      unless monstro_escolhido
+    @monstro_escolhido = opcoes_monstros[(id_monstro_escolhido.to_i - 1)]
+  end
+
+  private
+
+  def opcao_escolhe(id)
+    if valida_opcoes(id)
+      id = ultima_chance(true)
+      unless id
         txt_finalizando
         return false
       end
     end
-
-    @monstro_escolhido = monstro_escolhido
+    id
   end
 end

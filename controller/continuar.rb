@@ -1,9 +1,8 @@
+# frozen_string_literal: true
+
 require_relative 'base'
-require_relative 'duelo'
+
 class Continuar < Base
-  def initialize
-    deseja_continuar
-  end
 
   def deseja_continuar
     txt_continuar
@@ -17,7 +16,6 @@ class Continuar < Base
     end
     return opcao_tres if opcao == '3'
     return opcao_dois if opcao == '2'
-
     true
   end
 

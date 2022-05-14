@@ -1,145 +1,108 @@
+# frozen_string_literal: true
+
 require_relative 'base'
 
-class Duelo < Base
-  def initialize(chefe, monstro, jogador)
-    @chefe_no_duelo = chefe
-    @monstro_no_duelo = monstro
-    @jogador = jogador
-  end
+require './module/duelo/chefe'
+require './module/duelo/jogador'
 
-  def duelo
-    txt_inicio_do_duelo(@jogador, @monstro_no_duelo, @chefe_no_duelo)
+class Duelo < Base
+  include Chefe
+  include Jogador
+
+  # def initialize(chefe, monstro, jogador)
+  #   @chefe = chefe
+  #   @monstro = monstro
+  #   @jogador = jogador
+  # end
+
+  def duelo(chefe, monstro, jogador)
+    chefe_no_duelo = chefe
+    monstro_no_duelo = monstro
+    jogador_no_duelo = jogador
 
     turno = 1
-    turno_jogador = 0
-    turno_chefe = 0
     proximo_ataque_jogador = false
     proximo_ataque_chefe = true
 
+    txt_inicio_do_duelo(jogador_no_duelo, monstro_no_duelo, chefe_no_duelo)
     loop do
-      txt_turno_duelo_inicio(turno, @monstro_no_duelo, @chefe_no_duelo)
+      txt_duelo_inicio_turno(turno, monstro_no_duelo, chefe_no_duelo)
 
       if proximo_ataque_jogador
-        # #CASO SEJA A VEZ DO JOGADOR ATACAR CÓDIGO ABAIXO
-        turno_do_jogador(turno, turno_jogador)
-        
-        turno_jogador += 1
-        proximo_ataque_jogador = false
-        proximo_ataque_chefe = true
+        ok = turno_jogador(turno, chefe_no_duelo, monstro_no_duelo)
+        return false unless ok
 
+        proximo_ataque_jogador = false if ok
+        proximo_ataque_chefe = true if ok
       else
-        turno_chefe(turno, turno_chefe)
-
+        turno_chefe(turno, chefe_no_duelo, monstro_no_duelo)
         proximo_ataque_jogador = true
         proximo_ataque_chefe = false
       end
 
       turno += 1
 
-      if @monstro_no_duelo[:vida] <= 0
-        txt_perdeu
-        break
-      end
+      txt_perdeu if monstro_no_duelo[:vida] <= 0
+      break if monstro_no_duelo[:vida] <= 0
 
-      if @chefe_no_duelo[:vida] <= 0
-        txt_ganhou
-        break
+      txt_ganhou if chefe_no_duelo[:vida] <= 0
+      break if chefe_no_duelo[:vida] <= 0
 
-      end
-
-      txt_turno_duelo_final(turno, @monstro_no_duelo, @chefe_no_duelo)
+      txt_duelo_final_turno(turno, monstro_no_duelo, chefe_no_duelo)
     end
     true
   end
 
   private
 
-  def turno_do_jogador(turno, turno_jogador)
-    txt_opcoes_duelo if turno_jogador < 3
-    txt_opcoes_duelo(true) if turno_jogador >= 3
+  def turno_jogador(turno, chefe_no_duelo, monstro_no_duelo)
+    desbloqueia_especial = 5
+    txt_opcoes_duelo(false) if turno < desbloqueia_especial
+    txt_opcoes_duelo(true) if turno >= desbloqueia_especial
 
     opcao = captura_input
     if valida_opcoes(opcao)
-      opcao = ultima_chance(1)
+      opcao = ultima_chance(true)
       unless opcao
         txt_finalizando
         return false
       end
     end
+    opcoes_jogador(opcao, turno, chefe_no_duelo, monstro_no_duelo, desbloqueia_especial) if opcao
+  end
 
+  def opcoes_jogador(opcao, turno, chefe_no_duelo, monstro_no_duelo, desbloqueia_especial)
     case opcao.to_i
     when 1
-      ataque_jogador
+      hash_retorno = ataque_jogador(chefe_no_duelo, monstro_no_duelo)
     when 2
-      corre_jogador
+      corre_jogador(chefe_no_duelo)
+      hash_retorno = chefe_ganha_dano(chefe_no_duelo, monstro_no_duelo)
     when 3
-      if turno_jogador >= 3
-        ataque_jogador_especial
+      if turno >= desbloqueia_especial
+        hash_retorno = ataque_jogador_especial(chefe_no_duelo, monstro_no_duelo)
       else
         nda_jogador
+        hash_retorno = chefe_ganha_vida(chefe_no_duelo, monstro_no_duelo)
       end
     end
+    hash_retorno
   end
 
-  def turno_chefe(turno, turno_chefe)
+  def turno_chefe(turno, chefe_no_duelo, monstro_no_duelo)
     usou_especial = false
-        if turno >= 2
-          if pode_usar_especial_chefe && !usou_especial
-            ataque_especial_chefe
-            usou_especial = true
-          end
-          usa_cura = false
-          turno_chefe += 1
-          if turno_chefe >= 3 && !usa_cura
-            chefe_ganha_vida
-            usa_cura = true
-          end
-        end
-
-    ataque_normal_chefe unless usou_especial
-  end
-
-  def nda_jogador
-    txt_recupera_vida_chefe
-    chefe_ganha_vida
-  end
-
-  def corre_jogador
-    txt_mostrou_medo(@chefe_no_duelo)
-    chefe_ganha_dano
-  end
-
-  def chefe_ganha_vida
-    @chefe_no_duelo[:vida] = @chefe_no_duelo[:vida] + 20
-  end
-
-  def chefe_ganha_dano
-    @chefe_no_duelo[:dano][:normal] = @chefe_no_duelo[:dano][:normal] + 10
-    @chefe_no_duelo[:dano][:especial] = @chefe_no_duelo[:dano][:especial] + 10
-  end
-
-  def ataque_jogador
-    @chefe_no_duelo[:vida] = @chefe_no_duelo[:vida] - @monstro_no_duelo[:dano][:normal]
-    txt_monstro_atacou(@monstro_no_duelo)
-  end
-
-  def ataque_jogador_especial
-    @chefe_no_duelo[:vida] = @chefe_no_duelo[:vida] - @monstro_no_duelo[:dano][:especial]
-    txt_monstro_atacou(@monstro_no_duelo, true)
-  end
-
-  def ataque_normal_chefe
-    @monstro_no_duelo[:vida] = @monstro_no_duelo[:vida] - @chefe_no_duelo[:dano][:normal]
-    txt_chefe_atacou(@chefe_no_duelo)
-  end
-
-  def ataque_especial_chefe
-    @monstro_no_duelo[:vida] = @monstro_no_duelo[:vida] - @chefe_no_duelo[:dano][:especial]
-    txt_chefe_atacou(@chefe_no_duelo, true)
-  end
-
-  def pode_usar_especial_chefe
-    rand = rand(1...10)
-    return true if rand.to_i == 5
+    if turno >= 3
+      if pode_usar_especial_chefe && !usou_especial
+        hash_retorno = ataque_especial_chefe(chefe_no_duelo, monstro_no_duelo)
+        usou_especial = true
+      end
+      usa_cura = false
+      if turno >= 4 && !usa_cura
+        hash_retorno = chefe_ganha_vida(chefe_no_duelo, monstro_no_duelo)
+        usa_cura = true
+      end
+    end
+    hash_retorno = ataque_normal_chefe(chefe_no_duelo, monstro_no_duelo) unless usou_especial
+    hash_retorno
   end
 end
