@@ -1,9 +1,9 @@
 # frozen_string_literal: true
 
-require_relative 'dueloMod'
+require_relative 'duelo'
 
 module Jogador
-  include DueloModule
+  include Modulo::Duelo
   def nda_jogador
     txt_recupera_vida_chefe
   end

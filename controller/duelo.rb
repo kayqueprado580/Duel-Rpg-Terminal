@@ -5,7 +5,12 @@ require_relative 'base'
 require './module/duelo/chefe'
 require './module/duelo/jogador'
 
+require './model/chefe'
+require './model/monstro'
+
 class Duelo < Base
+  include Model::Monstro
+  include Model::Chefe
   include Chefe
   include Jogador
 

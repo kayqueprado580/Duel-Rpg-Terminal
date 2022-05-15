@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require 'rainbow/refinement'
+
 require './controller/preparo'
 require './controller/duelo'
 require './controller/continuar'
@@ -7,10 +9,11 @@ require './controller/continuar'
 require './model/chefes'
 require './model/monstros'
 
-duelo = 1
+using Rainbow
 
+duelo = 1
 loop do
-	puts 'Bem vindo ao Duelo'
+	puts 'Bem vindo ao Duelo'.green.bright.underline
 
 	preparar = Preparo.new
 	break unless preparar.personagem
@@ -29,3 +32,8 @@ loop do
 
 	duelo += 1
 end
+
+
+## TO DO
+# Colorizar para verde os textos e background para preto.
+# Criar um readme

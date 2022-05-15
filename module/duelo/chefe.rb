@@ -1,9 +1,9 @@
 # frozen_string_literal: true
 
-require_relative 'dueloMod'
+require_relative 'duelo'
 
 module Chefe
-  include DueloModule
+  include Modulo::Duelo
   def chefe_ganha_vida(chefe_no_duelo, monstro_no_duelo)
     chefe_no_duelo[:vida] = chefe_no_duelo[:vida] + 20
     retornar_criaturas(chefe_no_duelo, monstro_no_duelo)
