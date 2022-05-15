@@ -5,7 +5,7 @@ Jogo de terminal com duelo de turnos. O duelo consiste em um chefe contra um mon
 ## Funcionalidades
 
 * Escolhe Chefe
-* Escolhe Monstro
+* Escolhe Monstro Aliado
 * Duelo
 
 ## Tipo Aplicação
