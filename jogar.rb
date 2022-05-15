@@ -32,8 +32,3 @@ loop do
 
 	duelo += 1
 end
-
-
-## TO DO
-# Colorizar para verde os textos e background para preto.
-# Criar um readme
