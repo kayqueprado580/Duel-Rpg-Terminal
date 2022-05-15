@@ -9,15 +9,9 @@ class Duelo < Base
   include Chefe
   include Jogador
 
-  # def initialize(chefe, monstro, jogador)
-  #   @chefe = chefe
-  #   @monstro = monstro
-  #   @jogador = jogador
-  # end
-
   def duelo(chefe, monstro, jogador)
-    chefe_no_duelo = chefe
-    monstro_no_duelo = monstro
+    chefe_no_duelo = captura_chefe_duelo(chefe)
+    monstro_no_duelo = captura_monstro_duelo(monstro)
     jogador_no_duelo = jogador
 
     turno = 1
