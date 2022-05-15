@@ -4,20 +4,21 @@ Jogo de terminal com duelo de turnos. O duelo consiste em um chefe contra um mon
 
 ## Funcionalidades
 
-	* Escolhe Chefe
-	* Escolhe Monstro
-	* Duelo
+* Escolhe Chefe
+* Escolhe Monstro
+* Duelo
 
 ## Tipo Aplicação
 
-	* Jogo na linguagem Ruby
+* Jogo na linguagem Ruby
 
 ## Stack
-	* Ruby
+
+* Ruby
 
 ## Rodando a aplicação
 
 Dentro do diretorio execute o seguinte comando:
 ````bash
-	ruby jogar.rb
+ruby jogar.rb
 ````
