@@ -10,7 +10,7 @@ Jogo de terminal com duelo de turnos. O duelo consiste em um chefe contra um mon
 
 ## Tipo Aplicação
 
-* Jogo na linguagem Ruby
+* Jogo para terminal
 
 ## Stack
 
